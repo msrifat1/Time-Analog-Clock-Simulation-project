@@ -69,49 +69,26 @@ def bresenham_line(img, x1, y1, x2, y2, value=0):
             y1 += sy
 
 
+def prepare_clock_canvas(size=700):
+    # Bangladesh time
+    now = datetime.now(ZoneInfo("Asia/Dhaka"))
 
+    # Day / Night Mode
+    current_hour = now.hour
+    if 6 <= current_hour < 18:
+        background_color = "white"
+        clock_color = "black"
+        number_color = "black"
+    else:
+        background_color = "black"
+        clock_color = "white"
+        number_color = "white"
 
+    background_value = 255 if background_color == "white" else 0
+    img = np.ones((size, size), dtype=np.uint8) * background_value
 
+    line_value = 0 if background_color == "white" else 255
 
+    return img, now, number_color, line_value, background_color
 
-
-
-
-            def calculate_clock_hands_and_frame(img, now, line_value, size=700):
-    xc = size // 2
-    yc = size // 2
-    radius = 250
-
-    # Draw Outer & Inner Circles
-    midpoint_circle(img, xc, yc, radius, line_value)
-    midpoint_circle(img, xc, yc, 8, line_value)
-
-    # Draw Hour Marks
-    for hour_mark in range(12):
-        angle = math.radians(hour_mark * 30)
-        x1 = xc + int(215 * math.sin(angle))
-        y1 = yc - int(215 * math.cos(angle))
-        x2 = xc + int(235 * math.sin(angle))
-        y2 = yc - int(235 * math.cos(angle))
-        bresenham_line(img, x1, y1, x2, y2, line_value)
-
-    # Calculate Time & Angles
-    hour = now.hour % 12
-    minute = now.minute
-    second = now.second
-
-    hour_angle = hour * 30 + minute * 0.5
-    minute_angle = minute * 6 + second * 0.1
-    second_angle = second * 6
-
-    # Calculate Endpoints
-    hour_x = xc + int(140 * math.sin(math.radians(hour_angle)))
-    hour_y = yc - int(140 * math.cos(math.radians(hour_angle)))
-
-    minute_x = xc + int(190 * math.sin(math.radians(minute_angle)))
-    minute_y = yc - int(190 * math.cos(math.radians(minute_angle)))
-
-    second_x = xc + int(220 * math.sin(math.radians(second_angle)))
-    second_y = yc - int(220 * math.cos(math.radians(second_angle)))
-
-    return xc, yc, (hour_x, hour_y), (minute_x, minute_y), (second_x, second_y)
+            
