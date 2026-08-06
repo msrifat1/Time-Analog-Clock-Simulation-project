@@ -128,4 +128,4 @@ def calculate_clock_hands_and_frame(img, now, line_value, size=700):
     second_x = xc + int(220 * math.sin(math.radians(second_angle)))
     second_y = yc - int(220 * math.cos(math.radians(second_angle)))
 
-    return xc, yc, (hour_x, hour_y), (minute_x, minute_y), (second_x, second_y
+    return xc, yc, (hour_x, hour_y), (minute_x, minute_y), (second_x, second_y)
