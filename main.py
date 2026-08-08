@@ -159,3 +159,19 @@ def render_clock(img, now, number_color, background_color, xc, yc, hour_pos, min
     plt.ylim(size - 50, 50)
     plt.axis("off")
     plt.show()
+
+
+def draw_clock():
+    img, now, number_color, line_value, background_color = prepare_clock_canvas()
+    xc, yc, hour_pos, minute_pos, second_pos = calculate_clock_hands_and_frame(img, now, line_value)
+    render_clock(img, now, number_color, background_color, xc, yc, hour_pos, minute_pos, second_pos)
+
+
+# Real-Time Execution
+try:
+    while True:
+        clear_output(wait=True)
+        draw_clock()
+        time.sleep(1)
+except KeyboardInterrupt:
+    print("Clock stopped.")
