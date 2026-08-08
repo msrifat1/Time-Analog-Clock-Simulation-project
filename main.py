@@ -129,3 +129,33 @@ def calculate_clock_hands_and_frame(img, now, line_value, size=700):
     second_y = yc - int(220 * math.cos(math.radians(second_angle)))
 
     return xc, yc, (hour_x, hour_y), (minute_x, minute_y), (second_x, second_y)
+
+def render_clock(img, now, number_color, background_color, xc, yc, hour_pos, minute_pos, second_pos, size=700):
+    plt.figure(figsize=(9, 9))
+    plt.imshow(img, cmap="gray", origin="upper")
+
+    # Draw Numbers 1-12
+    for number in range(1, 13):
+        angle = math.radians(number * 30)
+        x = xc + int(185 * math.sin(angle))
+        y = yc - int(185 * math.cos(angle))
+        plt.text(x, y, str(number), fontsize=18, fontweight="bold", color=number_color, ha="center", va="center")
+
+    # Draw Hands
+    plt.plot([xc, hour_pos[0]], [yc, hour_pos[1]], linewidth=8, color="black" if background_color == "white" else "white")
+    plt.plot([xc, minute_pos[0]], [yc, minute_pos[1]], linewidth=5, color="blue")
+    plt.plot([xc, second_pos[0]], [yc, second_pos[1]], linewidth=2, color="red")
+    plt.scatter(xc, yc, s=100, color="red")
+
+    # Text Display
+    date_text = now.strftime("%A, %d %B %Y")
+    digital_time = now.strftime("%I:%M:%S %p")
+
+    plt.text(xc, yc + 285, date_text, fontsize=15, color=number_color, ha="center", fontweight="bold")
+    plt.text(xc, yc + 315, digital_time, fontsize=16, color=number_color, ha="center", fontweight="bold")
+    plt.title("Real-Time Analog Clock\nBangladesh Standard Time (UTC+6)", fontsize=18, color=number_color, pad=20)
+
+    plt.xlim(50, size - 50)
+    plt.ylim(size - 50, 50)
+    plt.axis("off")
+    plt.show()
